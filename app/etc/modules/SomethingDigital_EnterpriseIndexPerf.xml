@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <SomethingDigital_EnterpriseIndexPerf>
+            <active>true</active>
+            <codePool>community</codePool>
+
+            <depends>
+                <Enterprise_Catalog />
+            </depends>
+        </SomethingDigital_EnterpriseIndexPerf>
+    </modules>
+</config>

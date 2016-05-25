@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <SomethingDigital_EnterpriseIndexPerf>
+            <version>1.0.0</version>
+        </SomethingDigital_EnterpriseIndexPerf>
+    </modules>
+
+    <global>
+        <models>
+            <enterprise_catalog>
+                <rewrite>
+                    <index_action_catalog_category_product_category_refresh_changelog>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Category_Refresh_Changelog</index_action_catalog_category_product_category_refresh_changelog>
+                    <index_action_catalog_category_product_category_refresh_row>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Category_Refresh_Row</index_action_catalog_category_product_category_refresh_row>
+                    <index_action_catalog_category_product_refresh_changelog>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refresh_Changelog</index_action_catalog_category_product_refresh_changelog>
+                    <index_action_catalog_category_product_refresh_row>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refresh_Row</index_action_catalog_category_product_refresh_row>
+                    <index_action_catalog_category_product_refresh>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refresh</index_action_catalog_category_product_refresh>
+                </rewrite>
+            </enterprise_catalog>
+        </models>
+    </global>
+</config>
