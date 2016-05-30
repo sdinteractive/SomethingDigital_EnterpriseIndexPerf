@@ -22,6 +22,9 @@
                     <index_action_catalog_category_product_refresh>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refresh</index_action_catalog_category_product_refresh>
                     <index_action_catalog_category_product_refresh_changelog>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refresh_Changelog</index_action_catalog_category_product_refresh_changelog>
                     <index_action_catalog_category_product_refresh_row>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refresh_Row</index_action_catalog_category_product_refresh_row>
+                    <index_action_url_rewrite_category_refresh>SomethingDigital_EnterpriseIndexPerf_Model_Url_Rewrite_Category_Refresh</index_action_url_rewrite_category_refresh>
+                    <index_action_url_rewrite_category_refresh_changelog>SomethingDigital_EnterpriseIndexPerf_Model_Url_Rewrite_Category_Refresh_Changelog</index_action_url_rewrite_category_refresh_changelog>
+                    <index_action_url_rewrite_category_refresh_row>SomethingDigital_EnterpriseIndexPerf_Model_Url_Rewrite_Category_Refresh_Row</index_action_url_rewrite_category_refresh_row>
                 </rewrite>
             </enterprise_catalog>
 
