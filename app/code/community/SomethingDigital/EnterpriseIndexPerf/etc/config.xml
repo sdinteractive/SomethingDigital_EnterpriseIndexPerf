@@ -24,6 +24,12 @@
                     <index_action_catalog_category_product_refresh_row>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refresh_Row</index_action_catalog_category_product_refresh_row>
                 </rewrite>
             </enterprise_catalog>
+
+            <enterprise_urlrewrite>
+                <rewrite>
+                    <index_action_url_rewrite_redirect_refresh>SomethingDigital_EnterpriseIndexPerf_Model_Url_Rewrite_Redirect_Refresh</index_action_url_rewrite_redirect_refresh>
+                </rewrite>
+            </enterprise_urlrewrite>
         </models>
     </global>
 </config>
