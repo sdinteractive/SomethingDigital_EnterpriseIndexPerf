@@ -8,6 +8,12 @@
 
     <global>
         <models>
+            <bundle_resource>
+                <rewrite>
+                    <indexer_price>SomethingDigital_EnterpriseIndexPerf_Model_Bundle_Price_Refresh</indexer_price>
+                </rewrite>
+            </bundle_resource>
+
             <enterprise_catalog>
                 <rewrite>
                     <index_action_catalog_category_product_category_refresh_changelog>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Category_Refresh_Changelog</index_action_catalog_category_product_category_refresh_changelog>
