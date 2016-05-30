@@ -6,7 +6,7 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refres
     use SomethingDigital_EnterpriseIndexPerf_Trait_FasterAnchorCategoriesSelect;
 
     /**
-     * Retrieve select for reindex products of non anchor categories
+     * Retrieve a select for reindexing products of anchor categories
      *
      * @param Mage_Core_Model_Store $store
      * @return Varien_Db_Select
