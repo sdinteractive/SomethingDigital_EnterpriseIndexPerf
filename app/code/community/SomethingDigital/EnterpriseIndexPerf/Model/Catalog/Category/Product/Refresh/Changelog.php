@@ -7,6 +7,13 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refres
     use SomethingDigital_EnterpriseIndexPerf_Trait_PublishDataCheck;
 
     /**
+     * @var int Product count at which to use faster category tree index.
+     *
+     * At lower product counts, generating the tree index may not be worth it.
+     */
+    const MIN_PRODUCTS_FOR_CAT_TREE_INDEX = 300;
+
+    /**
      * Publish data from tmp to index
      */
     protected function _publishData()
@@ -22,6 +29,9 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refres
      */
     protected function _getAnchorCategoriesSelect(Mage_Core_Model_Store $store)
     {
+        if (count($this->_limitationByProducts) < static::MIN_PRODUCTS_FOR_CAT_TREE_INDEX) {
+            return parent::_getAnchorCategoriesSelect($store);
+        }
         $select = $this->_getFasterAnchorCategoriesSelect($store);
         return $select->where('ccp.product_id IN (?)', $this->_limitationByProducts);
     }
