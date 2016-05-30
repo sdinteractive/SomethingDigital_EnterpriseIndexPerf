@@ -116,17 +116,6 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Bundle_Price_Refresh
                 'bs.option_id = bo.option_id',
                 array('selection_id')
             )
-            ->joinLeft(
-                array('bsp' => $this->getTable('bundle/selection_price')),
-                'bs.selection_id = bsp.selection_id AND bsp.website_id = i.website_id',
-                array('')
-            )
-            ->join(
-                array('idx' => $this->getIdxTable()),
-                'bs.product_id = idx.entity_id AND i.customer_group_id = idx.customer_group_id'
-                . ' AND i.website_id = idx.website_id',
-                array()
-            )
             ->join(
                 array('e' => $this->getTable('catalog/product')),
                 'bs.product_id = e.entity_id AND e.required_options=0',
@@ -144,6 +133,25 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Bundle_Price_Refresh
                 'tier_price'    => $tierExpr,
                 'group_price'   => $groupExpr,
             ));
+
+        if ($priceType == Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
+            $select->joinLeft(
+                array('bsp' => $this->getTable('bundle/selection_price')),
+                'bs.selection_id = bsp.selection_id AND bsp.website_id = i.website_id',
+                array('')
+            );
+        } else {
+            // Using an inner join here will sometimes cause MySQL 5.6 to plan the execution around idx.
+            // When it does that, the query may take hours and lock many rows of data.
+            // We switch to LEFT and HAVING in order to force it to build the query around another table.
+            // (this issue may likely exist in other versions of MySQL, such as 5.7, too.)
+            $select->joinLeft(
+                array('idx' => $this->getIdxTable()),
+                'bs.product_id = idx.entity_id AND i.customer_group_id = idx.customer_group_id'
+                . ' AND i.website_id = idx.website_id',
+                array()
+            )->having('price IS NOT NULL');
+        }
 
         $selectEntityIds = $write->select()
             ->distinct()
