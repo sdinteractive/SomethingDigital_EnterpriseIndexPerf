@@ -15,6 +15,23 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Catego
     }
 
     /**
+     * Reindex category/product index by store
+     *
+     * @return $this
+     */
+    protected function _reindex()
+    {
+        if (!empty($this->_limitationByCategories)) {
+            return parent::_reindex();
+        } else {
+            $this->_beforeReindex();
+            $this->_afterReindex();
+
+            return $this;
+        }
+    }
+
+    /**
      * Retrieve a select for reindexing products of anchor categories
      *
      * @param Mage_Core_Model_Store $store
