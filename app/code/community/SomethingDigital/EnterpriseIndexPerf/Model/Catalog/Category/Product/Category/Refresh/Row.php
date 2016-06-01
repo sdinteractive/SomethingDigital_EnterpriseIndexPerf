@@ -4,9 +4,18 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Catego
     extends Enterprise_Catalog_Model_Index_Action_Catalog_Category_Product_Category_Refresh_Row
 {
     use SomethingDigital_EnterpriseIndexPerf_Trait_FasterAnchorCategoriesSelect;
+    use SomethingDigital_EnterpriseIndexPerf_Trait_PublishDataCheck;
 
     /**
-     * Retrieve select for reindex products of non anchor categories
+     * Publish data from tmp to index
+     */
+    protected function _publishData()
+    {
+        return $this->_publishDataWithCheck();
+    }
+
+    /**
+     * Retrieve a select for reindexing products of anchor categories
      *
      * @param Mage_Core_Model_Store $store
      * @return Varien_Db_Select
