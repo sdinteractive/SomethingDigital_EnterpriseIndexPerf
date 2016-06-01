@@ -43,7 +43,7 @@ trait SomethingDigital_EnterpriseIndexPerf_Trait_BuildTempCategoryTree
                 array('entity_id')
             );
 
-        $this->_connection->insertFromSelect($temporarySelect, $this->_getTempCategoryTreeTableName(), array('parent_id', 'child_id'));
+        $this->_connection->query($this->_connection->insertFromSelect($temporarySelect, $this->_getTempCategoryTreeTableName(), array('parent_id', 'child_id')));
     }
 
     protected function _getTempCategoryTreeTableName()
