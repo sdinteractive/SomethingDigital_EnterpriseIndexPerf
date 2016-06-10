@@ -28,7 +28,7 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refres
      */
     protected function _reindex()
     {
-        if (!empty($this->_limitationByCategories)) {
+        if (!empty($this->_limitationByProducts)) {
             return parent::_reindex();
         } else {
             $this->_beforeReindex();
