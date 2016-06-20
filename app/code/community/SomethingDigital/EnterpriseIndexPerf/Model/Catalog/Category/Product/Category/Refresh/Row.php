@@ -7,6 +7,22 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Catego
     use SomethingDigital_EnterpriseIndexPerf_Trait_PublishDataCheck;
 
     /**
+     * Run reindex
+     *
+     * @return $this
+     * @throws Enterprise_Index_Model_Action_Exception
+     */
+    public function execute()
+    {
+        if (!empty($this->_limitationByCategories)) {
+            // Sometimes the same category will be in the changelog many times over.
+            $this->_limitationByCategories = array_values(array_unique($this->_limitationByCategories));
+        }
+
+        return parent::execute();
+    }
+
+    /**
      * Publish data from tmp to index
      */
     protected function _publishData()

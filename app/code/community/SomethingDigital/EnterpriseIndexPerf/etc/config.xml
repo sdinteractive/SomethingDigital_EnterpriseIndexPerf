@@ -35,5 +35,49 @@
                 </rewrite>
             </enterprise_urlrewrite>
         </models>
+
+        <events>
+            <!-- Override PageCache reindexing to optimize product invalidation on reindex. -->
+            <cataloginventory_stock_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </cataloginventory_stock_partial_reindex>
+            <catalog_product_price_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_product_price_partial_reindex>
+            <catalog_product_flat_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_product_flat_partial_reindex>
+            <catalog_category_product_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_category_product_partial_reindex>
+            <catalog_url_product_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_url_product_partial_reindex>
+        </events>
     </global>
 </config>
