@@ -2,12 +2,28 @@
 <config>
     <modules>
         <SomethingDigital_EnterpriseIndexPerf>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
         </SomethingDigital_EnterpriseIndexPerf>
     </modules>
 
     <global>
+        <resources>
+            <sd_enterpriseindexperf_setup>
+                <setup>
+                    <module>SomethingDigital_EnterpriseIndexPerf</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>setup</use>
+                </connection>
+            </sd_enterpriseindexperf_setup>
+        </resources>
+
         <models>
+            <sd_enterpriseindexperf>
+                <class>SomethingDigital_EnterpriseIndexPerf_Model</class>
+            </sd_enterpriseindexperf>
+
             <bundle_resource>
                 <rewrite>
                     <indexer_price>SomethingDigital_EnterpriseIndexPerf_Model_Bundle_Price_Refresh</indexer_price>
@@ -35,5 +51,49 @@
                 </rewrite>
             </enterprise_urlrewrite>
         </models>
+
+        <events>
+            <!-- Override PageCache reindexing to optimize product invalidation on reindex. -->
+            <cataloginventory_stock_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </cataloginventory_stock_partial_reindex>
+            <catalog_product_price_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_product_price_partial_reindex>
+            <catalog_product_flat_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_product_flat_partial_reindex>
+            <catalog_category_product_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_category_product_partial_reindex>
+            <catalog_url_product_partial_reindex>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>sd_enterpriseindexperf/observer_pagecache</class>
+                        <method>cleanProductsCacheAfterPartialReindex</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_url_product_partial_reindex>
+        </events>
     </global>
 </config>
