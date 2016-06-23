@@ -2,7 +2,7 @@
 <config>
     <modules>
         <SomethingDigital_EnterpriseIndexPerf>
-            <version>1.1.2</version>
+            <version>1.1.3</version>
         </SomethingDigital_EnterpriseIndexPerf>
     </modules>
 
@@ -96,4 +96,20 @@
             </catalog_url_product_partial_reindex>
         </events>
     </global>
+
+    <default>
+        <catalog>
+            <!-- This section does nothing if the Merchandiser is disabled. -->
+            <merchandiser>
+                <actions>
+                    <newest>
+                        <sorting_function>SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser::newestFirst</sorting_function>
+                    </newest>
+                    <instock_at_top>
+                        <sorting_function>SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser::moveInStockToTheTop</sorting_function>
+                    </instock_at_top>
+                </actions>
+            </merchandiser>
+        </catalog>
+    </default>
 </config>
