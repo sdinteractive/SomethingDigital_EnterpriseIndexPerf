@@ -1,13 +1,5 @@
 <?php
 
-/**
- * PageCache short summary.
- *
- * PageCache description.
- *
- * @version 1.0
- * @author Unknown
- */
 class SomethingDigital_EnterpriseIndexPerf_Model_Observer_Pagecache
 {
     /**
