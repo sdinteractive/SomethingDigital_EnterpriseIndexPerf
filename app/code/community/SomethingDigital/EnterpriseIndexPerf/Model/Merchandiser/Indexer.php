@@ -18,7 +18,7 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Indexer extends On
 
         if (empty($heroProducts) && $categoryValues['smart_attributes'] == '') {
             // Nothing to do, this is probably only configured to sort.
-            // This is a common configuration in some cases.
+            // This is a common configuration on some stores.
             return false;
         }
 
@@ -57,9 +57,17 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Indexer extends On
                     $newProducts[$productId] = $iCounter++;
                 }
             }
+        } else {
+            // Apply existing rule-based products in the same order they were in before.
+            $ruledLookup = array_flip($ruledProductIds);
+            foreach ($existingProducts as $productId => $position) {
+                if (!isset($newProducts[$productId]) && isset($ruledLookup[$productId])) {
+                    $newProducts[$productId] = $iCounter++;
+                }
+            }
         }
 
-        // Place any remaining products at the bottom.  This may include existing products when ruled_only.
+        // Place any remaining products at the bottom.
         foreach ($ruledProductIds as $productId) {
             if (!isset($newProducts[$productId])) {
                 $newProducts[$productId] = $iCounter++;
