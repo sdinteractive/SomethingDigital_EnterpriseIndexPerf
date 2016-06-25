@@ -14,6 +14,14 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Indexer extends On
             $categoryValues['ruled_only'] = 0;
         }
 
+        $heroProducts = $this->getHeroProductIds($categoryValues);
+
+        if (empty($heroProducts) && $categoryValues['smart_attributes'] == '') {
+            // Nothing to do, this is probably only configured to sort.
+            // This is a common configuration in some cases.
+            return false;
+        }
+
         $categoryProductsResult = $merchandiserResourceModel->getCategoryProduct($categoryId);
         $existingProducts = array();
         foreach ($categoryProductsResult as $productInfo) {
@@ -24,7 +32,6 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Indexer extends On
         $newProducts = array();
         $iCounter = 1;
 
-        $heroProducts = $this->getHeroProductIds($categoryValues);
         foreach ($heroProducts as $productId) {
             $newProducts[$productId] = $iCounter++;
         }
