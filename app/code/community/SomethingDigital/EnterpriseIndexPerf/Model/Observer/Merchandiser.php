@@ -7,19 +7,26 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Observer_Merchandiser
      */
     public function reindexCron()
     {
+        if (!Mage::helper('merchandiser')->rebuildOnCron()) {
+            return;
+        }
+
+        /** @var OnTap_Merchandiser_Model_Resource_Merchandiser $merchandiserResourceModel */
+        $merchandiserResourceModel = Mage::getResourceModel('merchandiser/merchandiser');
+        $categoryIds = $this->getSmartCategoryIds();
+
         // Following indexes only works when they're enabled.
         // But when they are, we'll use events.
         if (!$this->isFlatIndexerEnabled()) {
-            /** @var OnTap_Merchandiser_Model_Adminhtml_Observer $observer */
-            $observer = Mage::getSingleton('merchandiser/adminhtml_observer');
-            $observer->reindexCron();
-        } elseif (Mage::helper('merchandiser')->rebuildOnCron()) {
-            // Let's still resort on cron, since sorting may be affected by sales, or etc.
-            /** @var OnTap_Merchandiser_Model_Resource_Merchandiser $merchandiserResourceModel */
-            $merchandiserResourceModel = Mage::getResourceModel('merchandiser/merchandiser');
+            foreach ($categoryIds as $categoryId) {
+                /** @var SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Indexer $merchandiser */
+                $merchandiser = Mage::getModel('sd_enterpriseindexperf/merchandiser_indexer');
+                $merchandiser->reindexCategory($categoryId);
 
-            // Full reindex: rebuild all categories.
-            $categoryIds = $this->getSmartCategoryIds();
+                $merchandiserResourceModel->applySortAction($categoryId);
+            }
+        } else {
+            // Let's still resort on cron, since sorting may be affected by sales, or etc.
             foreach ($categoryIds as $categoryId) {
                 $merchandiserResourceModel->applySortAction($categoryId);
             }
