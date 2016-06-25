@@ -39,9 +39,11 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Observer_Merchandiser
         foreach ($categoryIds as $categoryId) {
             /** @var SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Indexer $merchandiser */
             $merchandiser = Mage::getModel('sd_enterpriseindexperf/merchandiser_indexer');
-            $merchandiser->reindexCategory($categoryId);
+            $changed = $merchandiser->reindexCategory($categoryId);
 
-            $merchandiserResourceModel->applySortAction($categoryId);
+            if ($changed) {
+                $merchandiserResourceModel->applySortAction($categoryId);
+            }
         }
     }
 
