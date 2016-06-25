@@ -13,6 +13,16 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Observer_Merchandiser
             /** @var OnTap_Merchandiser_Model_Adminhtml_Observer $observer */
             $observer = Mage::getSingleton('merchandiser/adminhtml_observer');
             $observer->reindexCron();
+        } elseif (Mage::helper('merchandiser')->rebuildOnCron()) {
+            // Let's still resort on cron, since sorting may be affected by sales, or etc.
+            /** @var OnTap_Merchandiser_Model_Resource_Merchandiser $merchandiserResourceModel */
+            $merchandiserResourceModel = Mage::getResourceModel('merchandiser/merchandiser');
+
+            // Full reindex: rebuild all categories.
+            $categoryIds = $this->getSmartCategoryIds();
+            foreach ($categoryIds as $categoryId) {
+                $merchandiserResourceModel->applySortAction($categoryId);
+            }
         }
     }
 
@@ -23,19 +33,18 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Observer_Merchandiser
     {
         /** @var OnTap_Merchandiser_Model_Resource_Merchandiser $merchandiserResourceModel */
         $merchandiserResourceModel = Mage::getResourceModel('merchandiser/merchandiser');
-        $categoryValues = $merchandiserResourceModel->fetchCategoriesValues();
 
         // Full reindex: rebuild all categories.
-        foreach ($categoryValues as $categoryVal) {
+        $categoryIds = $this->getSmartCategoryIds();
+        foreach ($categoryIds as $categoryId) {
             // Avoid ever having the category visibly empty, if possible.
             $merchandiserResourceModel->beginTransaction();
-
             /** @var OnTap_Merchandiser_Model_Merchandiser $merchandiser */
             $merchandiser = Mage::getModel('merchandiser/merchandiser');
-            $merchandiser->affectCategoryBySmartRule($categoryVal['category_id']);
-            $merchandiserResourceModel->applySortAction($categoryVal['category_id']);
-
+            $merchandiser->affectCategoryBySmartRule($categoryId);
             $merchandiserResourceModel->commit();
+
+            $merchandiserResourceModel->applySortAction($categoryId);
         }
     }
 
@@ -54,5 +63,19 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Observer_Merchandiser
     protected function isFlatIndexerEnabled()
     {
         return Mage::getStoreConfigFlag('catalog/frontend/flat_catalog_product');
+    }
+
+    protected function getSmartCategoryIds()
+    {
+        /** @var OnTap_Merchandiser_Model_Resource_Merchandiser $merchandiserResourceModel */
+        $merchandiserResourceModel = Mage::getResourceModel('merchandiser/merchandiser');
+        $categoryValues = $merchandiserResourceModel->fetchCategoriesValues();
+
+        $categoryIds = array();
+        foreach ($categoryValues as $categoryVal) {
+            $categoryIds[] = $categoryVal['category_id'];
+        }
+
+        return $categoryIds;
     }
 }
