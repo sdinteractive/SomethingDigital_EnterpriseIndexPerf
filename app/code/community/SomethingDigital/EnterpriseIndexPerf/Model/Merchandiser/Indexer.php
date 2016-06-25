@@ -36,7 +36,9 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Indexer extends On
             $newProducts[$productId] = $iCounter++;
         }
 
-        $ruledProductIds = $helper->smartFilter($categoryId, $categoryValues['smart_attributes']);
+        // The category is no longer used.  Let's pass in a blank one with the id.
+        $category = Mage::getModel('catalog/category')->setId($categoryId);
+        $ruledProductIds = $helper->smartFilter($category, $categoryValues['smart_attributes']);
 
         $addTo = $helper->newProductsHandler(); // 1= TOP , 2 = BOTTOM
         if ($addTo <= 1) {
