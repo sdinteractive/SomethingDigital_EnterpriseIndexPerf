@@ -37,12 +37,9 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Observer_Merchandiser
         // Full reindex: rebuild all categories.
         $categoryIds = $this->getSmartCategoryIds();
         foreach ($categoryIds as $categoryId) {
-            // Avoid ever having the category visibly empty, if possible.
-            $merchandiserResourceModel->beginTransaction();
-            /** @var OnTap_Merchandiser_Model_Merchandiser $merchandiser */
-            $merchandiser = Mage::getModel('merchandiser/merchandiser');
-            $merchandiser->affectCategoryBySmartRule($categoryId);
-            $merchandiserResourceModel->commit();
+            /** @var SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Indexer $merchandiser */
+            $merchandiser = Mage::getModel('sd_enterpriseindexperf/merchandiser_indexer');
+            $merchandiser->reindexCategory($categoryId);
 
             $merchandiserResourceModel->applySortAction($categoryId);
         }
@@ -55,9 +52,22 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Observer_Merchandiser
      */
     public function updateProducts(Varien_Event_Observer $observer)
     {
-        // TODO: Only reindex products which were modified.
-        // $entityIds = $observer->getEvent()->getProductIds();
-        $this->updateAllProducts();
+        $productIds = $observer->getEvent()->getProductIds();
+
+        /** @var OnTap_Merchandiser_Model_Resource_Merchandiser $merchandiserResourceModel */
+        $merchandiserResourceModel = Mage::getResourceModel('merchandiser/merchandiser');
+
+        // Partial reindex: check each category for these products.
+        $categoryIds = $this->getSmartCategoryIds();
+        foreach ($categoryIds as $categoryId) {
+            /** @var SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Indexer $merchandiser */
+            $merchandiser = Mage::getModel('sd_enterpriseindexperf/merchandiser_indexer');
+            $changed = $merchandiser->reindexCategoryProducts($categoryId, $productIds);
+
+            if ($changed) {
+                $merchandiserResourceModel->applySortAction($categoryId);
+            }
+        }
     }
 
     protected function isFlatIndexerEnabled()
