@@ -14,22 +14,6 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Refres
     const MIN_PRODUCTS_FOR_CAT_TREE_INDEX = 300;
 
     /**
-     * Run reindex
-     *
-     * @return $this
-     * @throws Enterprise_Index_Model_Action_Exception
-     */
-    public function execute()
-    {
-        if (!empty($this->_limitationByProducts)) {
-            // Sometimes the same product will be in the changelog many times over.
-            $this->_limitationByProducts = array_values(array_unique($this->_limitationByProducts));
-        }
-
-        return parent::execute();
-    }
-
-    /**
      * Publish data from tmp to index
      */
     protected function _publishData()

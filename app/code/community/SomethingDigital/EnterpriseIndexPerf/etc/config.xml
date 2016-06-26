@@ -30,6 +30,12 @@
                 </rewrite>
             </bundle_resource>
 
+            <enterprise_index>
+                <rewrite>
+                    <changelog>SomethingDigital_EnterpriseIndexPerf_Model_Changelog</changelog>
+                </rewrite>
+            </enterprise_index>
+
             <enterprise_catalog>
                 <rewrite>
                     <index_action_catalog_category_product_category_refresh>SomethingDigital_EnterpriseIndexPerf_Model_Catalog_Category_Product_Category_Refresh</index_action_catalog_category_product_category_refresh>
