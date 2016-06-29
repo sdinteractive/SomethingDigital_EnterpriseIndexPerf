@@ -1,6 +1,6 @@
 <?php
 
-class SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser
+class SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Sorting
 {
     /**
      * newestFirst sort action.

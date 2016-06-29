@@ -2,7 +2,7 @@
 <config>
     <modules>
         <SomethingDigital_EnterpriseIndexPerf>
-            <version>1.1.3</version>
+            <version>1.2.0</version>
         </SomethingDigital_EnterpriseIndexPerf>
     </modules>
 
@@ -29,6 +29,12 @@
                     <indexer_price>SomethingDigital_EnterpriseIndexPerf_Model_Bundle_Price_Refresh</indexer_price>
                 </rewrite>
             </bundle_resource>
+
+            <enterprise_index>
+                <rewrite>
+                    <changelog>SomethingDigital_EnterpriseIndexPerf_Model_Changelog</changelog>
+                </rewrite>
+            </enterprise_index>
 
             <enterprise_catalog>
                 <rewrite>
@@ -76,6 +82,11 @@
                         <class>sd_enterpriseindexperf/observer_pagecache</class>
                         <method>cleanProductsCacheAfterPartialReindex</method>
                     </enterprise_pagecache>
+
+                    <sd_enterpriseindexperf_merchandiser>
+                        <class>sd_enterpriseindexperf/observer_merchandiser</class>
+                        <method>updateProducts</method>
+                    </sd_enterpriseindexperf_merchandiser>
                 </observers>
             </catalog_product_flat_partial_reindex>
             <catalog_category_product_partial_reindex>
@@ -94,6 +105,15 @@
                     </enterprise_pagecache>
                 </observers>
             </catalog_url_product_partial_reindex>
+
+            <catalog_product_flat_full_reindex>
+                <observers>
+                    <sd_enterpriseindexperf_merchandiser>
+                        <class>sd_enterpriseindexperf/observer_merchandiser</class>
+                        <method>updateAllProducts</method>
+                    </sd_enterpriseindexperf_merchandiser>
+                </observers>
+            </catalog_product_flat_full_reindex>
         </events>
     </global>
 
@@ -103,13 +123,23 @@
             <merchandiser>
                 <actions>
                     <newest>
-                        <sorting_function>SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser::newestFirst</sorting_function>
+                        <sorting_function>SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Sorting::newestFirst</sorting_function>
                     </newest>
                     <instock_at_top>
-                        <sorting_function>SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser::moveInStockToTheTop</sorting_function>
+                        <sorting_function>SomethingDigital_EnterpriseIndexPerf_Model_Merchandiser_Sorting::moveInStockToTheTop</sorting_function>
                     </instock_at_top>
                 </actions>
             </merchandiser>
         </catalog>
     </default>
+
+    <crontab>
+        <jobs>
+            <smart_merchandiser_reindex>
+                <run>
+                    <model>sd_enterpriseindexperf/observer_merchandiser::reindexCron</model>
+                </run>
+            </smart_merchandiser_reindex>
+        </jobs>
+    </crontab>
 </config>

@@ -23,12 +23,13 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Observer_Pagecache
     /**
      * Clean cache by specified product and its ids
      *
-     * @param Mage_Core_Model_Abstract $entity Base entity model
+     * @param Mage_Catalog_Model_Product $entity Base entity model
      * @param int[] $ids Product IDs
      */
-    protected function _cleanProductsCache(Mage_Core_Model_Abstract $entity, array $ids)
+    protected function _cleanProductsCache(Mage_Catalog_Model_Product $entity, array $ids)
     {
         $cacheTags = array();
+        $ids = array_unique($ids);
         foreach ($ids as $entityId) {
             $entity->setId($entityId);
             $productTags = $entity->getCacheIdTagsWithCategories();
