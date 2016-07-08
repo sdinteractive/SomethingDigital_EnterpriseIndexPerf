@@ -73,7 +73,10 @@ trait SomethingDigital_EnterpriseIndexPerf_Trait_Url_CategoryRewriteCache
         foreach ($categories as $category) {
             $categoryIds[] = is_object($category) ? $category->getId() : $category;
         }
-        $cached += $this->_urlResource->getCategories($categoryIds, $storeId);
+
+        if (!empty($categoryIds)) {
+            $cached += $this->_urlResource->getCategories($categoryIds, $storeId);
+        }
     }
 
     protected function _getCachedStoreSpecificData($category, $store)
