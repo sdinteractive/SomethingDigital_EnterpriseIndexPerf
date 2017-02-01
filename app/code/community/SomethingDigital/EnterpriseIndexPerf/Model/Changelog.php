@@ -14,12 +14,12 @@ class SomethingDigital_EnterpriseIndexPerf_Model_Changelog extends Enterprise_In
     {
         $select = $this->_connection->select()
             ->from(array('changelog' => $this->_metadata->getChangelogName()), array())
-            ->where('version_id >= ?', $this->_metadata->getVersionId())
+            ->where('version_id > ?', $this->_metadata->getVersionId())
             ->columns(array($this->_metadata->getKeyColumn()))
             ->distinct();
 
         if ($currentVersion) {
-            $select->where('version_id < ?', $currentVersion);
+            $select->where('version_id <= ?', $currentVersion);
         }
 
         return $this->_connection->fetchCol($select);
