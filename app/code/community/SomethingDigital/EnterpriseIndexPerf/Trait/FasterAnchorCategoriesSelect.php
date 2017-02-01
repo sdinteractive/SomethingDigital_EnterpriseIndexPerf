@@ -20,6 +20,7 @@ trait SomethingDigital_EnterpriseIndexPerf_Trait_FasterAnchorCategoriesSelect
             $visibilityAttributeId = $eavConfig->getAttribute(
                 Mage_Catalog_Model_Product::ENTITY, 'visibility'
             )->getId();
+            $entityTypeId = (int)$eavConfig->getEntityType(Mage_Catalog_Model_Category::ENTITY)->getEntityTypeId();
 
             $rootCatIds = explode('/', $this->_getPathFromCategoryId($store->getRootCategoryId()));
             array_pop($rootCatIds);
@@ -70,12 +71,14 @@ trait SomethingDigital_EnterpriseIndexPerf_Trait_FasterAnchorCategoriesSelect
                 ->joinInner(
                     array('ccad' => $this->_getTable(array('catalog/category', 'int'))),
                     'ccad.entity_id = cc.entity_id AND ccad.store_id = 0'
+                        . ' AND ccad.entity_type_id = ' . $entityTypeId
                         . ' AND ccad.attribute_id = ' . $isAnchorAttributeId,
                     array()
                 )
                 ->joinLeft(
                     array('ccas' => $this->_getTable(array('catalog/category', 'int'))),
                     'ccas.entity_id = cc.entity_id AND ccas.attribute_id = ccad.attribute_id'
+                        . ' AND ccas.entity_type_id = ' . $entityTypeId
                         . ' AND ccas.store_id = ' . $store->getId(),
                     array()
                 )
@@ -112,5 +115,17 @@ trait SomethingDigital_EnterpriseIndexPerf_Trait_FasterAnchorCategoriesSelect
         }
 
         return $this->_anchorCategoriesSelect[$store->getId()];
+    }
+
+    protected function _getAnchorCategoriesSubSelect($store)
+    {
+        // Ignore EE 1.14.3.0's subselect slicing - our method is faster.
+        return $this->_getFasterAnchorCategoriesSelect($store);
+    }
+
+    protected function _getAnchorCategoriesSelectBySubSelect($select, $store)
+    {
+        // Ignore EE 1.14.3.0's subselect slicing - our method is faster.
+        return $select;
     }
 }

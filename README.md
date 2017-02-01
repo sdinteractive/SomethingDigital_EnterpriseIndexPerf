@@ -1,7 +1,7 @@
 # SomethingDigital_EnterpriseIndexPerf
 
-This improves Magento EE's `catalog_category_product` indexer rebuild
-performance considerably for stores with large product catalogs.
+This improves Magento EE's indexer performance, most notably for
+`catalog_category_product`.  Stores with large catalogs are most affected.
 
 The functionality of the index is not altered.
 
@@ -9,6 +9,6 @@ The functionality of the index is not altered.
 ## Requirements
 
  * PHP 5.4.0 or higher
- * Magento EE 1.13.1.0 through Magento EE 1.14.2.4
+ * Magento EE 1.13.1.0 through Magento EE 1.14.3.1
 
-Note: This improvement has been submitted to Magento 2 as a patch.
+Note: The most major improvement here has been integrated into Magento 2.
